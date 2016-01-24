@@ -1072,32 +1072,32 @@ function NSVGparser() {
   var /* int */ first = 1;
   for (path = shape.paths; path != null; path = path.next) {
     // nsvg__xformPoint(&curve[0], &curve[1], path.pts[0], path.pts[1], xform);
-    curve[0] = ((path.pts[0] * xform[0]) + (path.pts[1] * xform[2])) + xform[4];
-    curve[1] = ((path.pts[0] * xform[1]) + (path.pts[1] * xform[3])) + xform[5];
+    curve[0] = path.pts[0] * xform[0] + path.pts[1] * xform[2] + xform[4];
+    curve[1] = path.pts[0] * xform[1] + path.pts[1] * xform[3] + xform[5];
     for (i = 0; i < (path.npts - 1); i += 3) {
       // nsvg__xformPoint(&curve[2], &curve[3], path.pts[(i + 1) * 2],
       // path.pts[((i + 1) * 2) + 1], xform);
-      curve[2] = ((path.pts[(i + 1) * 2] * xform[0]) +
-                  (path.pts[((i + 1) * 2) + 1] * xform[2])) +
+      curve[2] = path.pts[(i + 1) * 2    ] * xform[0] +
+                 path.pts[(i + 1) * 2 + 1] * xform[2] +
                  xform[4];
-      curve[3] = ((path.pts[(i + 1) * 2] * xform[1]) +
-                  (path.pts[((i + 1) * 2) + 1] * xform[3])) +
+      curve[3] = path.pts[(i + 1) * 2    ] * xform[1] +
+                 path.pts[(i + 1) * 2 + 1] * xform[3] +
                  xform[5];
       // nsvg__xformPoint(&curve[4], &curve[5], path.pts[(i + 2) * 2],
       // path.pts[((i + 2) * 2) + 1], xform);
-      curve[4] = ((path.pts[(i + 2) * 2] * xform[0]) +
-                  (path.pts[((i + 2) * 2) + 1] * xform[2])) +
+      curve[4] = path.pts[(i + 2) * 2    ] * xform[0] +
+                 path.pts[(i + 2) * 2 + 1] * xform[2] +
                  xform[4];
-      curve[5] = ((path.pts[(i + 2) * 2] * xform[1]) +
-                  (path.pts[((i + 2) * 2) + 1] * xform[3])) +
+      curve[5] = path.pts[(i + 2) * 2    ] * xform[1] +
+                 path.pts[(i + 2) * 2 + 1] * xform[3] +
                  xform[5];
       // nsvg__xformPoint(&curve[6], &curve[7], path.pts[(i + 3) * 2],
       // path.pts[((i + 3) * 2) + 1], xform);
-      curve[6] = ((path.pts[(i + 3) * 2] * xform[0]) +
-                  (path.pts[((i + 3) * 2) + 1] * xform[2])) +
+      curve[6] = path.pts[(i + 3) * 2    ] * xform[0] +
+                 path.pts[(i + 3) * 2 + 1] * xform[2] +
                  xform[4];
-      curve[7] = ((path.pts[(i + 3) * 2] * xform[1]) +
-                  (path.pts[((i + 3) * 2) + 1] * xform[3])) +
+      curve[7] = path.pts[(i + 3) * 2    ] * xform[1] +
+                 path.pts[(i + 3) * 2 + 1] * xform[3] +
                  xform[5];
       nsvg__curveBounds(curveBounds, curve);
       if (first) {
@@ -1229,12 +1229,14 @@ function NSVGparser() {
   for (i = 0; i < p.npts; ++i) {
     // nsvg__xformPoint(&path.pts[i * 2], &path.pts[(i * 2) + 1], p.pts[i * 2],
     // p.pts[(i * 2) + 1], attr.xform);
-    path.pts[i * 2] = ((p.pts[i * 2] * attr.xform[0]) +
-                       (p.pts[(i * 2) + 1] * attr.xform[2])) +
-                      attr.xform[4];
-    path.pts[(i * 2) + 1] = ((p.pts[i * 2] * attr.xform[1]) +
-                             (p.pts[(i * 2) + 1] * attr.xform[3])) +
-                            attr.xform[5];
+    var tx = p.pts[i * 2    ] * attr.xform[0] +
+             p.pts[i * 2 + 1] * attr.xform[2] +
+             attr.xform[4];
+    var ty = p.pts[i * 2    ] * attr.xform[1] +
+             p.pts[i * 2 + 1] * attr.xform[3] +
+             attr.xform[5];
+    path.pts[i * 2    ] = tx;
+    path.pts[i * 2 + 1] = ty;
   }
 
   for (i = 0; i < (path.npts - 1); i += 3) {
@@ -2151,11 +2153,11 @@ function nsvg__parseUrl(/* const char */ str) {
     dx = cosf(a);
     dy = sinf(a);
     //nsvg__xformPoint(&x, &y, dx * rx, dy * ry, t);
-    x = ((dx * rx * t[0]) + (dy * ry * t[2])) + t[4];
-    y = ((dx * rx * t[1]) + (dy * ry * t[3])) + t[5];
+    x = dx * rx * t[0] + dy * ry * t[2] + t[4];
+    y = dx * rx * t[1] + dy * ry * t[3] + t[5];
     //nsvg__xformVec(&tanx, &tany, ((-dy) * rx) * kappa, (dx * ry) * kappa, t);
-    tanx = (((-dy) * rx) * kappa * t[0]) + ((dx * ry) * kappa * t[2]);
-    tany = (((-dy) * rx) * kappa * t[1]) + ((dx * ry) * kappa * t[3]);
+    tanx = -dy * rx * kappa * t[0] + dx * ry * kappa * t[2];
+    tany = -dy * rx * kappa * t[1] + dx * ry * kappa * t[3];
     if (i > 0)
       nsvg__cubicBezTo(p, px + ptanx, py + ptany, x - tanx, y - tany, x, y);
 
