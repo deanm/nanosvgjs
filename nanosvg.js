@@ -1595,37 +1595,36 @@ function nsvg__parseUrl(/* const char */ str) {
   return 0 /* NSVG_FILLRULE_NONZERO */;
 }
 
-/* static */ /* const char */ function nsvg__getNextDashItem(/* const char */ s,
-                                                             /* char */ it) {
-  var /* int */ n = 0;
-  it[0] = '\0';
+/* static */ /* const char */ function nsvg__getNextDashItem(/* const char */ s) {
+  var it = "";
+  var s_idx = 0;
   while ((s[s_idx]) && (nsvg__isspace(s[s_idx]) || ((s[s_idx]) === ',')))
     s_idx++;
 
   while ((s[s_idx]) && ((!nsvg__isspace(s[s_idx])) && ((s[s_idx]) != ','))) {
-    if (n < 63)
-      it[n++] = s[s_idx];
+    it += s[s_idx];
 
     s_idx++;
   }
 
-  it[n++] = '\0';
-  return s;
+  return {s_idx: s_idx, it: it};
 }
 
 /* static */ /* int */ function nsvg__parseStrokeDashArray(
     /* NSVGparser */ p, /* const char */ str, /* float */ strokeDashArray) {
-  // var /* char */ item[64];
+  var /* char */ item;
   var /* int */ count = 0;
   var /* int */ i;
   var /* float */ sum = 0.0;
+  var str_idx = 0;
   if (str[0] === 'n')
     return 0;
 
   while (str[str_idx]) {
-    str = nsvg__getNextDashItem(str, item);
-    // if (!(*item))
-    break;
+    var res = nsvg__getNextDashItem(str.substr(str_idx));
+    str_idx += res.s_idx;
+    item = res.it;
+    if (!item) break;
 
     if (count < 8)
       strokeDashArray[count++] =
