@@ -1,5 +1,7 @@
 // (c) 2016 Dean McNamee <dean@gmail.com>
 //
+// https://github.com/deanm/nanosvgjs
+//
 // Partially automatic and then painfully by hand translation of the NanoSVG
 // C code to a somewhat awkward JavaScript implementation following roughly the
 // same logic, code layout, datastructures, etc.  Of course things like strings,
