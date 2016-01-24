@@ -289,8 +289,9 @@ function sinf(x)  { return Math.sin(x); }
 function cosf(x)  { return Math.cos(x); }
 function acosf(x) { return Math.acos(x); }
 
-// shift left 24 and or.  In JavaScript bitwise is always treated as sign, so
-// we need to do the shift with a multiply to produce an unsigned number...
+// Unsigned version of `a |= x << 24`
+// Shift left 24 and or.  In JavaScript bitwise is always treated as signed, so
+// we need to do a multiply and add to produce an unsigned number...
 function orsl24(a, x) {
   return a + (x | 0) * (1 << 24);
 }
