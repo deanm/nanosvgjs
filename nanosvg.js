@@ -2800,7 +2800,7 @@ function nsvg__parseUrl(/* const char */ str) {
 
 /* static */ /* void */ function nsvg__content(/* void */ ud,
                                                /* const char */ s) {
-  if (!ud.styleFlag) throw 'Parsing content for non-style element.';
+  if (!ud.styleFlag) return;
 
   var re = /.([a-zA-Z_][a-zA-Z0-9_-]*){([^}]*)}/mgi;
   var res;
