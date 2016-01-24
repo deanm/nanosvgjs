@@ -16,6 +16,10 @@ little bit foreign, but this will be gradually improved over time.
 The port is pretty close to complete, but some things are unfinished, for
 example handling of gradients.  Currently works for fine for tiger.svg, etc.
 
+Extensions / changes from NanoSVG:
+  - Basic class attribute and class based style sheet support.
+  - Replaced color parser with css-color-parser-js.
+
 See source code for more copyright and information.
 
 
