@@ -1528,17 +1528,17 @@ function NSVGparser() {
   var /* float */ t = new Float32Array(6);
   nsvg__xformIdentity(xform);
   while (str[str_idx]) {
-    if (str.substr(0, 6) === "matrix")
+    if (str.substr(str_idx, 6) === "matrix")
       str_idx += nsvg__parseMatrix(t, str.substr(str_idx));
-    else if (str.substr(0, 9) === "translate")
+    else if (str.substr(str_idx, 9) === "translate")
       str_idx += nsvg__parseTranslate(t, str.substr(str_idx));
-    else if (str.substr(0, 5) === "scale")
+    else if (str.substr(str_idx, 5) === "scale")
       str_idx += nsvg__parseScale(t, str.substr(str_idx));
-    else if (str.substr(0, 6) === "rotate")
+    else if (str.substr(str_idx, 6) === "rotate")
       str_idx += nsvg__parseRotate(t, str.substr(str_idx));
-    else if (str.substr(0, 5) === "skewX")
+    else if (str.substr(str_idx, 5) === "skewX")
       str_idx += nsvg__parseSkewX(t, str.substr(str_idx));
-    else if (str.substr(0, 5) === "skewY")
+    else if (str.substr(str_idx, 5) === "skewY")
       str_idx += nsvg__parseSkewY(t, str.substr(str_idx));
     else {
       ++str_idx;
