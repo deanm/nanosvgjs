@@ -1,4 +1,5 @@
-nanosvgjs is a JavaScript port/fork of NanoSVG
+nanosvgjs is a zero dependency JavaScript SVG parser based on a translation of
+the NanoSVG C code.  It can be used without any browser infrastructure.
 
 https://github.com/deanm/nanosvgjs
 
