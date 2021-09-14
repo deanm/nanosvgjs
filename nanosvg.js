@@ -2142,7 +2142,11 @@ function nsvg__parseUrl(/* const char */ str) {
   t[5] = cy;
   ndivs = ((fabsf(da) / (3.14159265358979323846264338327 * 0.5)) + 1.0);
   hda = (da / (ndivs)) / 2.0;
-  kappa = fabsf(((4.0 / 3.0) * (1.0 - cosf(hda))) / sinf(hda));
+  if ((hda < 1e-3) && (hda > -1e-3))
+		hda *= 0.5;
+	else
+		hda = (1.0 - cosf(hda)) / sinf(hda);
+  kappa = fabsf(4.0 / 3.0 * hda);
   if (da < 0.0)
     kappa = -kappa;
 
