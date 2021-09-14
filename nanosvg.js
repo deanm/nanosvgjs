@@ -2140,7 +2140,7 @@ function nsvg__parseUrl(/* const char */ str) {
   t[3] = cosrx;
   t[4] = cx;
   t[5] = cy;
-  ndivs = ((fabsf(da) / (3.14159265358979323846264338327 * 0.5)) + 1.0);
+  ndivs = Math.floor((fabsf(da) / (3.14159265358979323846264338327 * 0.5)) + 1.0);
   hda = (da / (ndivs)) / 2.0;
   if ((hda < 1e-3) && (hda > -1e-3))
 		hda *= 0.5;
