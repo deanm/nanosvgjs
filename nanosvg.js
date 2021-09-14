@@ -2128,11 +2128,10 @@ function nsvg__parseUrl(/* const char */ str) {
   vy = ((-y1p) - cyp) / ry;
   a1 = nsvg__vecang(1.0, 0.0, ux, uy);
   da = nsvg__vecang(ux, uy, vx, vy);
-  if (fa) {
-    if (da > 0.0)
-      da = da - (2 * 3.14159265358979323846264338327);
-    else
-      da = (2 * 3.14159265358979323846264338327) + da;
+  if (fs == 0 && da > 0) {
+      da -= (2 * 3.14159265358979323846264338327);
+  } else if (fs == 1 && da < 0) {
+      da += (2 * 3.14159265358979323846264338327);
   }
 
   t[0] = cosrx;
